@@ -1,0 +1,25 @@
+name: Deploy to AWS S3
+
+on:
+  push:
+    branches:
+      - main  # Set your main branch or the branch you want to trigger deployments from
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: your-aws-region  # Replace with your AWS region
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync ./web s3://gitactionsitevendas
